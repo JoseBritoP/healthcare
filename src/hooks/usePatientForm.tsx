@@ -1,4 +1,5 @@
 "use client"
+import { createUser } from '@/lib/actions/patient.actions';
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { authPatientForm, AuthPatientValues } from '@/lib/validation';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -18,12 +19,14 @@ export default function usePatientForm() {
     },
   });
 
-  const onSubmit = (values:AuthPatientValues) => {
+  const onSubmit =async (values:AuthPatientValues) => {
     console.log(values);
     setIsLoading(true)
     try {
-      // const user = await createUser(values)
-      // if(user) router.push(`/patients/${user.$id}/register`)
+      const user = await createUser(values)
+      console.log(user)
+      if(!user) return;
+      if(user) router.push(`/patients/${user.$id}/register`)
       
     } catch (error:any) {
       console.log('Error',error)
