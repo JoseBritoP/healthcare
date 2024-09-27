@@ -1,12 +1,8 @@
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
 import React from "react";
+import { Button } from "@/components/ui/button";
+import { ButtonProps } from "@/types";
+import Image from "next/image";
 
-interface ButtonProps {
-  isLoading: boolean;
-  className?: string;
-  children: React.ReactNode;
-}
 export default function SubmitButton({
   children,
   isLoading,

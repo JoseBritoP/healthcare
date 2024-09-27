@@ -9,8 +9,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Control } from "react-hook-form";
-import { FormFieldType } from "./PatientForm";
 import Image from "next/image";
 import PhoneInput from 'react-phone-number-input'
 import { E164Number } from "libphonenumber-js/core";
@@ -23,8 +21,9 @@ import {
 } from "@/components/ui/select";
 import ReactDatePicker from "react-datepicker";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Control } from "react-hook-form";
 
-interface CustomFormFieldProps {
+export interface CustomFormFieldProps {
   control: Control<any>;
   name: string;
   label?: string;
@@ -39,6 +38,21 @@ interface CustomFormFieldProps {
   renderSkeleton?: (field: any) => React.ReactNode;
 }
 
+export interface ButtonProps {
+  isLoading: boolean;
+  className?: string;
+  children: React.ReactNode;
+}
+
+export enum FormFieldType {
+  INPUT = 'input',
+  CHECKBOX = 'checkbox',
+  TEXTAREA = 'textarea',
+  PHONE_INPUT = 'phoneInput',
+  DATE_PICKER = 'datePricker',
+  SELECT = "select",
+  SKELETON = 'skeleton'
+}
 const RenderInput = ({field,props}: {field: any;props: CustomFormFieldProps;})=>{
   switch (props.type) {
     case FormFieldType.INPUT:
