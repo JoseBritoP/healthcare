@@ -23,6 +23,6 @@ export const getUser = async(userId:string)=>{
     const user = await users.get(userId);
     return parseStringify(user)
   } catch (error:any) {
-    console.log('Error getting user',error)
+    console.log('Error getting user',error.response)
   }
 }
