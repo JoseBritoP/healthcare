@@ -19,15 +19,17 @@ export default function usePatientForm() {
     },
   });
 
-  const onSubmit =async (values:AuthPatientValues) => {
-    console.log(values);
+  const onSubmit = async (values:AuthPatientValues) => {
+    const data = {
+      name:values.name,
+      email:values.email,
+      phone:values.phone
+    }
     setIsLoading(true)
     try {
-      const user = await createUser(values)
-      console.log(user)
+      const user = await createUser(data)
       if(!user) return;
       if(user) router.push(`/patients/${user.$id}/register`)
-      
     } catch (error:any) {
       console.log('Error',error)
     } finally {
