@@ -10,6 +10,8 @@ import { Label } from "@/components/ui/label";
 import { SelectItem } from "@/components/ui/select";
 import Image from "next/image";
 import { FileUploader } from "./FileUploader";
+import "react-datepicker/dist/react-datepicker.css";
+import "react-phone-number-input/style.css";
 
 export default function RegisterForm({ user }: { user: User }) {
 
