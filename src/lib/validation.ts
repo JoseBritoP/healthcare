@@ -3,9 +3,9 @@ import { z } from 'zod'
 const name = z.string().min(2,{ message:'Name must be at least 2 characters.'}).max(50,"Name muest be at most 50 characters.");
 const email = z.string().email("Invalid email address");
 const phone = z.string().refine((phone)=>/^\+?[1-9]\d{1,14}$/.test(phone),"Invalid phone number");
-const date = z.coerce.date();
+const birthDate = z.coerce.date();
 const address =z.string().min(5, "Address must be at least 5 characters").max(500, "Address must be at most 500 characters")
-const gender =  z.enum(["Male", "Female", "Other"]),
+const gender =  z.enum(["male", "female", "other"]);
 const occupation = z.string().min(2, "Occupation must be at least 2 characters").max(500, "Occupation must be at most 500 characters")
 export const authPatientForm = z.object({
   name,
@@ -15,11 +15,11 @@ export const authPatientForm = z.object({
 
 export type AuthPatientValues = z.infer< typeof authPatientForm>
 
-export const PatientFormValidation = z.object({
+export const patientFormValidation = z.object({
   name,
   email,
   phone,
-  date,
+  birthDate,
   gender,
   address,
   occupation,
@@ -69,4 +69,4 @@ export const PatientFormValidation = z.object({
     }),
 });
 
-export type RegisterPatientValues = z.infer<typeof PatientFormValidation >
+export type RegisterPatientValues = z.infer<typeof patientFormValidation >
