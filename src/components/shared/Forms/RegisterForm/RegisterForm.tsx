@@ -1,23 +1,24 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { Form, FormControl } from "@/components/ui/form";
-import usePatientForm from "@/hooks/usePatientForm";
 import CustomFormField, { FormFieldType } from "../CustomFormField";
 import SubmitButton from "../SubmitButton";
 import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group";
-import { Doctors, GenderOptions, IdentificationTypes } from "@/constants";
+import { Doctors, GenderOptionsV2, IdentificationTypes } from "@/constants";
 import { Label } from "@/components/ui/label";
 import { SelectItem } from "@/components/ui/select";
 import Image from "next/image";
 import { FileUploader } from "./FileUploader";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-phone-number-input/style.css";
+import useRegisterForm from "@/hooks/useRegisterForm";
 
 export default function RegisterForm({ user }: { user: User }) {
 
-  console.log(user)
+  // console.log(user)
   
-  const { isLoading, form, onSubmit } = usePatientForm();
+  const { isLoading, form, onSubmit } = useRegisterForm(user.$id);
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -62,7 +63,7 @@ export default function RegisterForm({ user }: { user: User }) {
             <CustomFormField
               type={FormFieldType.DATE_PICKER}
               control={form.control}
-              name="date"
+              name="birthDate"
               label="Date of birth"
             />
 
@@ -78,11 +79,11 @@ export default function RegisterForm({ user }: { user: User }) {
                     onValueChange={field.onChange}
                     defaultValue={field.value}
                   >
-                    {GenderOptions.map((option, i) => (
-                      <div key={option + i} className="radio-group">
-                        <RadioGroupItem value={option} id={option} />
-                        <Label htmlFor={option} className="cursor-pointer">
-                          {option}
+                    {GenderOptionsV2.map(({text,value,id}) => (
+                      <div key={id} className="radio-group">
+                        <RadioGroupItem value={value} id={id.toString()} />
+                        <Label htmlFor={value} className="cursor-pointer">
+                          {text}
                         </Label>
                       </div>
                     ))}
@@ -126,7 +127,7 @@ export default function RegisterForm({ user }: { user: User }) {
           >
             {Doctors.map((doctor, i) => (
               <SelectItem key={doctor.name + i} value={doctor.name}>
-                <div className="flex cursor-pointer items-center gap-2">
+                <div className="flex cursor-pointer items-center gap-2 hover:bg-gray-600 px-4">
                   <Image
                     src={doctor.image}
                     width={32}
