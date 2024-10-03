@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { ButtonProps } from "@/types";
 import Image from "next/image";
+import { ButtonProps } from "./CustomFormField";
 
 export default function SubmitButton({
   children,
@@ -10,7 +10,7 @@ export default function SubmitButton({
 }: ButtonProps) {
   return (
     <Button
-      className={className ?? "shad-primary-btn w-full"}
+      className={className ?? "shad-primary-btn w-full p-7 text-lg font-semibold hover:bg-emerald-500"}
       disabled={isLoading}
     >
       {isLoading ? (
