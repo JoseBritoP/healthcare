@@ -53,6 +53,7 @@ export enum FormFieldType {
   SELECT = "select",
   SKELETON = 'skeleton'
 }
+
 const RenderInput = ({field,props}: {field: any;props: CustomFormFieldProps;})=>{
   switch (props.type) {
     case FormFieldType.INPUT:
