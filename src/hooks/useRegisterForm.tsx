@@ -1,26 +1,26 @@
 "use client"
+import { PatientFormDefaultValues } from '@/constants';
 import { registerPatient } from '@/lib/actions/patient.actions';
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { authPatientForm, AuthPatientValues, RegisterPatientValues } from '@/lib/validation';
+import { patientFormValidation,RegisterPatientValues } from '@/lib/validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react'
 import { useForm } from 'react-hook-form';
 
 export default function useRegisterForm(userId:string) {
+  console.log(userId)
   const router = useRouter()
   const [isLoading,setIsLoading] = useState(false)
-  const form = useForm<AuthPatientValues>({
-    resolver: zodResolver(authPatientForm),
+  const form = useForm<RegisterPatientValues>({
+    resolver: zodResolver(patientFormValidation),
     defaultValues: {
-      name: "",
-      email:"",
-      phone:""
+      ...PatientFormDefaultValues
     },
   });
 
   const onSubmit = async (values:RegisterPatientValues) => {
     setIsLoading(true);
+    console.log('Enviando...')
 
     // Store file info in form data as
     let formData;
@@ -39,11 +39,11 @@ export default function useRegisterForm(userId:string) {
 
     try {
       const patient = {
-        userId: userId,
+        userId,
         name: values.name,
         email: values.email,
         phone: values.phone,
-        date: new Date(values.date),
+        birthDate: new Date(values.birthDate),
         gender: values.gender,
         address: values.address,
         occupation: values.occupation,
@@ -64,17 +64,18 @@ export default function useRegisterForm(userId:string) {
         privacyConsent: values.privacyConsent,
       };
 
+      console.log(patient)
+
       const newPatient = await registerPatient(patient);
 
       if (newPatient) {
         router.push(`/patients/${userId}/new-appointment`);
       }
     } catch (error) {
-      console.log(error);
+      console.log('Error register patient',error);
     }
 
     setIsLoading(false);
   };
-
   return { isLoading, form, onSubmit }
 }
