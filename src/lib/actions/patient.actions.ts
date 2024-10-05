@@ -1,6 +1,6 @@
 "use server";
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Query, InputFile, ID } from "node-appwrite";
+import { Query, ID } from "node-appwrite";
 import {
   BUCKET_ID,
   DATABASE_ID,
@@ -12,6 +12,7 @@ import {
   users,
 } from "../appwrite-config";
 import { parseStringify } from "../utils";
+import { InputFile } from 'node-appwrite/file'
 
 export const createUser = async (user: CreateUserParams) => {
   try {
@@ -25,7 +26,7 @@ export const createUser = async (user: CreateUserParams) => {
     const userAppWrite = await parseStringify(newUser);
     return userAppWrite;
   } catch (error: any) {
-    console.log("Error", error);
+    console.log("Error creating user", error.response);
     if (error && error?.code === 409) {
       const documents = await users.list([Query.equal("email", [user.email])]);
       return documents?.users[0];
@@ -53,7 +54,7 @@ export const registerPatient = async ({
     if (identificationDocument) {
       const inputFile =
         identificationDocument &&
-        InputFile.fromBlob(
+        InputFile.fromBuffer(
           identificationDocument?.get("blobFile") as Blob,
           identificationDocument?.get("fileName") as string
         );
@@ -74,10 +75,10 @@ export const registerPatient = async ({
         ...patient,
       }
     );
-
+    console.log('Hello')
     return parseStringify(newPatient);
-  } catch (error) {
-    console.error("An error occurred while creating a new patient:", error);
+  } catch (error:any) {
+    console.error("An error occurred while creating a new patient:", error.response);
   }
 };
 
@@ -91,10 +92,10 @@ export const getPatient = async (userId: string) => {
     );
 
     return parseStringify(patients.documents[0]);
-  } catch (error) {
+  } catch (error:any) {
     console.error(
       "An error occurred while retrieving the patient details:",
-      error
+      error.response
     );
   }
 };
