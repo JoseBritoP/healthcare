@@ -73,9 +73,10 @@ export default function useRegisterForm(userId:string) {
       }
     } catch (error) {
       console.log('Error register patient',error);
+    } finally {
+      setIsLoading(false);
     }
 
-    setIsLoading(false);
   };
   return { isLoading, form, onSubmit }
 }
