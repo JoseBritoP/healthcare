@@ -7,6 +7,7 @@ const birthDate = z.coerce.date();
 const address =z.string().min(5, "Address must be at least 5 characters").max(500, "Address must be at most 500 characters")
 const gender =  z.enum(["male", "female", "other"]);
 const occupation = z.string().min(2, "Occupation must be at least 2 characters").max(500, "Occupation must be at most 500 characters")
+
 export const authPatientForm = z.object({
   name,
   email,
@@ -23,16 +24,7 @@ export const patientFormValidation = z.object({
   gender,
   address,
   occupation,
-  emergencyContactName: z
-    .string()
-    .min(2, "Contact name must be at least 2 characters")
-    .max(50, "Contact name must be at most 50 characters"),
-  emergencyContactNumber: z
-    .string()
-    .refine(
-      (emergencyContactNumber) => /^\+\d{10,15}$/.test(emergencyContactNumber),
-      "Invalid phone number"
-    ),
+  // 
   primaryPhysician: z.string().min(2, "Select at least one doctor"),
   insuranceProvider: z
     .string()
@@ -46,6 +38,7 @@ export const patientFormValidation = z.object({
   currentMedication: z.string().optional(),
   familyMedicalHistory: z.string().optional(),
   pastMedicalHistory: z.string().optional(),
+  // 
   identificationType: z.string().optional(),
   identificationNumber: z.string().optional(),
   identificationDocument: z.custom<File[]>().optional(),
@@ -70,8 +63,6 @@ export const patientFormValidation = z.object({
 });
 
 export type RegisterPatientValues = z.infer<typeof patientFormValidation >
-
-// 
 
 export const CreateAppointmentSchema = z.object({
   primaryPhysician: z.string().min(2, "Select at least one doctor"),

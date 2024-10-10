@@ -75,7 +75,6 @@ export const registerPatient = async ({
         ...patient,
       }
     );
-    console.log('Hello')
     return parseStringify(newPatient);
   } catch (error:any) {
     console.error("An error occurred while creating a new patient:", error.response);

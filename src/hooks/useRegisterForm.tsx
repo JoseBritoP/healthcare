@@ -8,7 +8,6 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form';
 
 export default function useRegisterForm(userId:string) {
-  console.log(userId)
   const router = useRouter()
   const [isLoading,setIsLoading] = useState(false)
   const form = useForm<RegisterPatientValues>({
@@ -20,7 +19,6 @@ export default function useRegisterForm(userId:string) {
 
   const onSubmit = async (values:RegisterPatientValues) => {
     setIsLoading(true);
-    console.log('Enviando...')
 
     // Store file info in form data as
     let formData;
@@ -47,8 +45,6 @@ export default function useRegisterForm(userId:string) {
         gender: values.gender,
         address: values.address,
         occupation: values.occupation,
-        emergencyContactName: values.emergencyContactName,
-        emergencyContactNumber: values.emergencyContactNumber,
         primaryPhysician: values.primaryPhysician,
         insuranceProvider: values.insuranceProvider,
         insurancePolicyNumber: values.insurancePolicyNumber,
@@ -64,9 +60,8 @@ export default function useRegisterForm(userId:string) {
         privacyConsent: values.privacyConsent,
       };
 
-      console.log(patient)
-
       const newPatient = await registerPatient(patient);
+      console.log(newPatient)
 
       if (newPatient) {
         router.push(`/patients/${userId}/new-appointment`);
