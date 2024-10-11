@@ -61,7 +61,6 @@ export default function useRegisterForm(userId:string) {
       };
 
       const newPatient = await registerPatient(patient);
-      console.log(newPatient)
 
       if (newPatient) {
         router.push(`/patients/${userId}/new-appointment`);
