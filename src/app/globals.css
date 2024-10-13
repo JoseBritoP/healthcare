@@ -183,15 +183,15 @@
 
   /* =====  SHADCN OVERRIDES */
   .shad-primary-btn {
-    @apply bg-green-500 text-white !important;
+    @apply bg-green-500 text-gray-200 hover:bg-emerald-600 duration-300 transition-colors ease-out !important;
   }
 
   .shad-danger-btn {
-    @apply bg-red-700 text-white !important;
+    @apply bg-red-700 text-white  hover:bg-red-600/70 duration-300 transition-colors ease-out !important;
   }
 
   .shad-gray-btn {
-    @apply border border-dark-500 cursor-pointer bg-dark-400 text-white !important;
+    @apply border border-dark-500 cursor-pointer bg-dark-400 hover:bg-dark-400/60 text-white !important;
   }
 
   .shad-input-label {
