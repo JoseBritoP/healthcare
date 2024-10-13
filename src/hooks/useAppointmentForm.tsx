@@ -1,12 +1,12 @@
 "use client"
 import { z } from "zod";
-import { AppointmentFormProps } from '@/components/shared/Forms/Appointment/AppointmentForm';
 import { useState } from 'react';
 import { getAppointmentSchema } from '@/lib/validation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { createAppointment, updateAppointment } from '@/lib/actions/appointment.actionts';
+import { AppointmentFormProps } from "@/components/Forms/Appointment/AppointmentForm";
 
 export default function useAppointmentForm({userId,patientId,type,appointment}:AppointmentFormProps) {
 
