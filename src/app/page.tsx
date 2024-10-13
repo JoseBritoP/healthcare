@@ -1,9 +1,11 @@
-import PatientForm from "@/components/shared/Forms/PatientForm";
+import PatientForm from "@/components/Forms/PatientForm";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-export default function HomePage() {
+export default function HomePage({searchParams}:SearchParamProps) {
+
+  const isAdmin = searchParams.admin === 'true';
   return (
     <div className="flex h-screen max-h-screen">
       {/* TODO: OTP Verification */}
