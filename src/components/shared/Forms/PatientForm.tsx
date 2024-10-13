@@ -4,6 +4,7 @@ import { Form } from "@/components/ui/form";
 import CustomFormField, { FormFieldType } from "./CustomFormField";
 import SubmitButton from "./SubmitButton";
 import usePatientForm from "@/hooks/usePatientForm";
+import "react-phone-number-input/style.css";
 
 export default function PatientForm() {
   const { isLoading, form, onSubmit } = usePatientForm();
