@@ -1,4 +1,5 @@
 import PatientForm from "@/components/Forms/PatientForm";
+import { PasskeyModal } from "@/components/shared/PasskeyModal";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -6,9 +7,11 @@ import React from "react";
 export default function HomePage({searchParams}:SearchParamProps) {
 
   const isAdmin = searchParams.admin === 'true';
+  
   return (
     <div className="flex h-screen max-h-screen">
       {/* TODO: OTP Verification */}
+      {isAdmin && <PasskeyModal/>}
       <section className="remove-scrollbar container my-auto">
         <div className="sub-cintainer max-w-[496px]">
           <Image
