@@ -126,8 +126,8 @@ export default function RegisterForm({ user }: { user: User }) {
             placeholder="Select a physician"
           >
             {Doctors.map((doctor, i) => (
-              <SelectItem key={doctor.name + i} value={doctor.name}>
-                <div className="flex cursor-pointer items-center gap-2 hover:bg-gray-600 px-4">
+              <SelectItem key={doctor.name + i} value={doctor.name} className="hover:bg-gray-700 transition-colors duration-200 ease-in">
+                <div className="flex cursor-pointer items-center gap-2 px-4">
                   <Image
                     src={doctor.image}
                     width={32}
