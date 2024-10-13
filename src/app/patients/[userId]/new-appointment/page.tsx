@@ -2,9 +2,11 @@ import Image from "next/image";
 
 import { getPatient } from "@/lib/actions/patient.actions";
 import { AppointmentForm } from "@/components/shared/Forms/Appointment/AppointmentForm";
+import { redirect } from "next/navigation";
 
 const Appointment = async ({ params: { userId } }: SearchParamProps) => {
   const patient = await getPatient(userId);
+  if(!patient) redirect('/')
 
   return (
     <div className="flex h-screen max-h-screen">
@@ -19,10 +21,11 @@ const Appointment = async ({ params: { userId } }: SearchParamProps) => {
           />
 
           <AppointmentForm
-            patientId={patient?.$id}
+            patientId={patient.$id}
             userId={userId}
             type="create"
           />
+
           <p className="copyright mt-10 py-12">© 2024 CarePluse</p>
         </div>
       </section>
