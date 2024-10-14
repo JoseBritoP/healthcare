@@ -3,13 +3,15 @@ import { getUser } from "@/lib/actions/patient.actions";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import React from "react";
-
+import * as Sentry  from '@sentry/nextjs'
 export default async function RegisterPage({
   params,
 }: {
   params: { userId: string };
 }) {
+
   const user = await getUser(params.userId);
+  Sentry.metrics.set('user_view_register',user.name)
   if (!user) redirect("/");
   return (
     <div className="flex h-screen max-h-screen">

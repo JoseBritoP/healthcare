@@ -17,7 +17,7 @@ export interface AppointmentFormProps {
   type: "create" | "schedule" | "cancel";
   appointment?: Appointment;
   open?:boolean
-  setOpen: Dispatch<SetStateAction<boolean>>
+  setOpen?: Dispatch<SetStateAction<boolean>>
 }
 
 export const AppointmentForm = ({ userId,patientId,type = "create",appointment,setOpen,open} : AppointmentFormProps) => {
