@@ -1,19 +1,21 @@
-"use client"
+/* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
 import { z } from "zod";
-import { useState } from 'react';
-import { getAppointmentSchema } from '@/lib/validation';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
-import { createAppointment, updateAppointment } from '@/lib/actions/appointment.actionts';
+import { useState } from "react";
+import { getAppointmentSchema } from "@/lib/validation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import {
+  createAppointment,
+  updateAppointment,
+} from "@/lib/actions/appointment.actionts";
 import { AppointmentFormProps } from "@/components/Forms/Appointment/AppointmentForm";
 import { toast } from "react-toastify";
 
-export default function useAppointmentForm({userId,patientId,type,appointment}:AppointmentFormProps) {
-
+export default function useAppointmentForm({userId,patientId,type,appointment,open,setOpen}: AppointmentFormProps) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  
   const AppointmentFormValidation = getAppointmentSchema(type);
 
   const form = useForm<z.infer<typeof AppointmentFormValidation>>({
@@ -21,15 +23,14 @@ export default function useAppointmentForm({userId,patientId,type,appointment}:A
     defaultValues: {
       primaryPhysician: appointment ? appointment?.primaryPhysician : "",
       schedule: appointment
-      ? new Date(appointment.schedule!)
-      : new Date(Date.now()),
+        ? new Date(appointment.schedule!)
+        : new Date(Date.now()),
       reason: appointment ? appointment.reason : "",
       note: appointment?.note || "",
       cancellationReason: appointment?.cancellationReason || "",
     },
   });
 
-  
   const onSubmit = async (values: z.infer<typeof AppointmentFormValidation>) => {
     setIsLoading(true);
 
@@ -59,15 +60,16 @@ export default function useAppointmentForm({userId,patientId,type,appointment}:A
 
         const newAppointment = await createAppointment(appointment);
 
-        if (newAppointment) {
-          form.reset();
-          router.push(
-            `/patients/${userId}/new-appointment/success?appointmentId=${newAppointment.$id}`
-          );
-          toast.success('Your new appointment was successfully created!');
-        }
+        if (!newAppointment) throw new Error("Error creating appointment");
+
+        form.reset();
+        router.push(
+          `/patients/${userId}/new-appointment/success?appointmentId=${newAppointment.$id}`
+        );
+        toast.success("Your appointment was successfully created!");
       } else {
-        if(appointment === undefined) throw new Error(`Appointment Id is undefined`);
+        if (appointment === undefined) throw new Error(`Appointment Id is undefined`);
+
         const appointmentToUpdate = {
           userId,
           appointmentId: appointment.$id,
@@ -79,22 +81,27 @@ export default function useAppointmentForm({userId,patientId,type,appointment}:A
           },
           type,
         };
-
         const updatedAppointment = await updateAppointment(appointmentToUpdate);
 
-        if (updatedAppointment) {
-          form.reset();
-          toast.done('The appointment was successfully updated!')
+        if (!updatedAppointment) throw new Error("Error updating appointment");
+
+        if (open) setOpen(false);
+        form.reset();
+        if(status === 'cancel'){
+          toast.success("The appointment was cancelled");
+        }
+        if(status === 'schedule'){
+          toast.success("The appointment was successfully schedule!");
         }
       }
     } catch (error) {
-      console.log('An error ocurred creating appointment',error);
-      toast.error('Try again')
+      console.log("An error ocurred creating appointment", error);
+      toast.error("Try again later");
     }
     setIsLoading(false);
   };
 
-  let buttonLabel='test';
+  let buttonLabel;
   switch (type) {
     case "cancel":
       buttonLabel = "Cancel Appointment";
@@ -106,7 +113,5 @@ export default function useAppointmentForm({userId,patientId,type,appointment}:A
       buttonLabel = "Submit Apppointment";
   }
 
-
-  return { isLoading, buttonLabel, onSubmit, form }
-
+  return { isLoading, buttonLabel, onSubmit, form };
 }
