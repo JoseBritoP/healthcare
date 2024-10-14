@@ -9,17 +9,20 @@ import CustomFormField, { FormFieldType } from "../CustomFormField";
 import SubmitButton from "../SubmitButton";
 import { Form } from "@/components/ui/form";
 import useAppointmentForm from "@/hooks/useAppointmentForm";
+import { Dispatch, SetStateAction } from "react";
 
 export interface AppointmentFormProps {
   userId: string;
   patientId: string;
   type: "create" | "schedule" | "cancel";
   appointment?: Appointment;
+  open?:boolean
+  setOpen: Dispatch<SetStateAction<boolean>>
 }
 
-export const AppointmentForm = ({ userId,patientId,type = "create",appointment} : AppointmentFormProps) => {
+export const AppointmentForm = ({ userId,patientId,type = "create",appointment,setOpen,open} : AppointmentFormProps) => {
 
-  const { isLoading, buttonLabel, onSubmit,form } = useAppointmentForm({userId,patientId,type,appointment})
+  const { isLoading, buttonLabel, onSubmit,form } = useAppointmentForm({userId,patientId,type,appointment,setOpen,open})
 
   return (
     <Form {...form}>
