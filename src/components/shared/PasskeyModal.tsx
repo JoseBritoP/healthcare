@@ -19,6 +19,7 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { decryptKey, encryptKey } from "@/lib/utils";
+import { toast } from "react-toastify";
 
 export const PasskeyModal = () => {
   const router = useRouter();
@@ -36,13 +37,13 @@ export const PasskeyModal = () => {
     const accessKey = encryptedKey && decryptKey(encryptedKey);
 
     if (path)
-      if (accessKey === process.env.NEXT_PUBLIC_ADMIN_PASSKEY!.toString()) {
+      if (accessKey === process.env.NEXT_PUBLIC_ADMIN_PASSKEY!) {
         setOpen(false);
         router.push("/admin");
       } else {
         setOpen(true);
       }
-  }, [encryptedKey]);
+  }, [encryptedKey,path,router]);
 
   const closeModal = () => {
     setOpen(false);
@@ -55,7 +56,10 @@ export const PasskeyModal = () => {
     e.preventDefault();
 
     if (passkey === process.env.NEXT_PUBLIC_ADMIN_PASSKEY) {
+      console.log(process.env.NEXT_PUBLIC_ADMIN_PASSKEY)
+      console.log(passkey)
       const encryptedKey = encryptKey(passkey);
+      toast.success('Admin verify successfully')
 
       localStorage.setItem("accessKey", encryptedKey);
 
