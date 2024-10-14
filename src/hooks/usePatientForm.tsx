@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react'
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 
 export default function usePatientForm() {
   const router = useRouter()
@@ -28,10 +29,12 @@ export default function usePatientForm() {
     setIsLoading(true)
     try {
       const user = await createUser(data)
-      if(!user) return;
-      if(user) router.push(`/patients/${user.$id}/register`)
+      if(!user) throw new Error('Error creating user');
+      router.push(`/patients/${user.$id}/register`);
+      toast.success('User create successfully, now complete this form')
     } catch (error:any) {
       console.log('Error',error)
+      toast.error('Error creating user');
     } finally {
       setIsLoading(false)
     }

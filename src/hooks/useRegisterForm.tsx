@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react'
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 
 export default function useRegisterForm(userId:string) {
   const router = useRouter()
@@ -63,10 +64,12 @@ export default function useRegisterForm(userId:string) {
       const newPatient = await registerPatient(patient);
 
       if (newPatient) {
+        toast.success('Your account was successfully created!')
         router.push(`/patients/${userId}/new-appointment`);
       }
     } catch (error) {
       console.log('Error register patient',error);
+      toast.error('Error register patient, try again')
     } finally {
       setIsLoading(false);
     }

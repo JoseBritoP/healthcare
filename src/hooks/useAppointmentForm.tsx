@@ -7,6 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { createAppointment, updateAppointment } from '@/lib/actions/appointment.actionts';
 import { AppointmentFormProps } from "@/components/Forms/Appointment/AppointmentForm";
+import { toast } from "react-toastify";
 
 export default function useAppointmentForm({userId,patientId,type,appointment}:AppointmentFormProps) {
 
@@ -63,6 +64,7 @@ export default function useAppointmentForm({userId,patientId,type,appointment}:A
           router.push(
             `/patients/${userId}/new-appointment/success?appointmentId=${newAppointment.$id}`
           );
+          toast.success('Your new appointment was successfully created!');
         }
       } else {
         if(appointment === undefined) throw new Error(`Appointment Id is undefined`);
@@ -82,10 +84,12 @@ export default function useAppointmentForm({userId,patientId,type,appointment}:A
 
         if (updatedAppointment) {
           form.reset();
+          toast.done('The appointment was successfully updated!')
         }
       }
     } catch (error) {
       console.log('An error ocurred creating appointment',error);
+      toast.error('Try again')
     }
     setIsLoading(false);
   };
