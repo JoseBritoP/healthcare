@@ -97,7 +97,9 @@ export const Doctors = [
 ];
 
 export const StatusIcon = {
-  scheduled: "/assets/icons/check.svg",
+  schedule: "/assets/icons/check.svg",
   pending: "/assets/icons/pending.svg",
+  cancel: "/assets/icons/cancelled.svg",
+  scheduled: "/assets/icons/check.svg",
   cancelled: "/assets/icons/cancelled.svg",
 };
