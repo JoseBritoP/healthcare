@@ -67,9 +67,15 @@ const RequestSuccess = async ({
           </div>
         </section>
 
-        <Button variant="outline" className="shad-primary-btn p-7 font-semibold hover:bg-emerald-600" asChild>
+        <Button variant="outline" className="shad-primary-btn p-7 font-semibold hover:bg-emerald-600" asChild aria-label="Create new appointment">
           <Link href={`/patients/${userId}/new-appointment`}>
             New Appointment
+          </Link>
+        </Button>
+
+        <Button variant="outline" className="bg-sky-600 p-7 font-semibold hover:bg-sky-700" asChild aria-label="Close session">
+          <Link href={`/`}>
+            Close session
           </Link>
         </Button>
 
