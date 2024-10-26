@@ -85,7 +85,8 @@ export default function useAppointmentForm({userId,patientId,type,appointment,op
 
         if (!updatedAppointment) throw new Error("Error updating appointment");
 
-        if (open) setOpen(false);
+        if (open) {
+          if(setOpen) setOpen(false)};
         form.reset();
         if(status === 'cancel'){
           toast.success("The appointment was cancelled");
