@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import React from 'react'
 import "react-toastify/dist/ReactToastify.min.css";
